@@ -1,2 +1,2 @@
-# Bar_machine_uart
-X210裸机操作串口
+# Bar_machine
+X210裸机入门
