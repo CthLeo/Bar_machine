@@ -12,6 +12,12 @@
 #define rGPH2CON	(*(volatile unsigned int *)GPH2CON)
 #define rGPH2DAT	(*(volatile unsigned int *)GPH2DAT)
 
+
+void led_off(void);
+void led1(void);
+void led2(void);
+void led3(void);
+
 // 初始化按键
 void key_init(void)
 {
