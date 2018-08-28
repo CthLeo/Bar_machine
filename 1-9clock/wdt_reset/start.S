@@ -1,14 +1,18 @@
 /*
  * 文件名：	start.S
  * 作者：	陈探鸿
- * 描述：	通过串口实现printf函数
+ * 描述：	看门狗产生中断信号
  */
 
 #define WTCON		0xE2700000
 
 #define SVC_STACK	0xd0037d80
+#define IRQ_STACK	0xd0037f80
 
-.global _start					// 把_start链接属性改为外部，这样其他文件就可以看见_start了
+.global _start	
+.global IRQ_handle	
+
+// 把_start链接属性改为外部，这样其他文件就可以看见_start了
 _start:
 	// 第1步：关看门狗（向WTCON的bit5写入0即可）
 	ldr r0, =WTCON
@@ -33,8 +37,6 @@ _start:
 	b .
 	
 
-	
-	
 	
 
 	

@@ -1,7 +1,7 @@
-// 时钟控制器基地址
+// ʱ�ӿ���������ַ
 #define ELFIN_CLOCK_POWER_BASE		0xE0100000	
 
-// 时钟相关的寄存器相对时钟控制器基地址的偏移值
+// ʱ����صļĴ������ʱ�ӿ���������ַ��ƫ��ֵ
 #define APLL_LOCK_OFFSET		0x00		
 #define MPLL_LOCK_OFFSET		0x08
 
@@ -30,9 +30,9 @@
 
 #define CLK_DIV0_MASK			0x7fffffff
 
-// 这些M、P、S的配置值都是查数据手册中典型时钟配置值的推荐配置得来的。
-// 这些配置值是三星推荐的，因此工作最稳定。如果是自己随便瞎拼凑出来的那就要
-// 经过严格测试，才能保证一定对。
+// ��ЩM��P��S������ֵ���ǲ������ֲ��е���ʱ������ֵ���Ƽ����õ����ġ�
+// ��Щ����ֵ�������Ƽ��ģ���˹������ȶ���������Լ����Ϲƴ�ճ������Ǿ�Ҫ
+// �����ϸ���ԣ����ܱ�֤һ���ԡ�
 #define APLL_MDIV      	 		0x7d		// 125
 #define APLL_PDIV       		0x3
 #define APLL_SDIV       		0x1
@@ -63,25 +63,25 @@
 
 void clock_init(void)
 {
-	// 1 设置各种时钟开关，暂时不使用PLL
+	// 1 ���ø���ʱ�ӿ��أ���ʱ��ʹ��PLL
 	rREG_CLK_SRC0 = 0x0;
 	
-	// 2 设置锁定时间，使用默认值即可
-	// 设置PLL后，时钟从Fin提升到目标频率时，需要一定的时间，即锁定时间
+	// 2 ��������ʱ�䣬ʹ��Ĭ��ֵ����
+	// ����PLL��ʱ�Ӵ�Fin������Ŀ��Ƶ��ʱ����Ҫһ����ʱ�䣬������ʱ��
 	rREG_APLL_LOCK = 0x0000ffff;
 	rREG_MPLL_LOCK = 0x0000ffff;
 	
-	// 3 设置分频
-	// 清bit[0~31]
+	// 3 ���÷�Ƶ
+	// ��bit[0~31]
 	rREG_CLK_DIV0 = 0x14131440;
 	
-	// 4 设置PLL
+	// 4 ����PLL
 	// FOUT = MDIV*FIN/(PDIV*2^(SDIV-1))=0x7d*24/(0x3*2^(1-1))=1000 MHz
 	rREG_APLL_CON0 = APLL_VAL;
 	// FOUT = MDIV*FIN/(PDIV*2^SDIV)=0x29b*24/(0xc*2^1)= 667 MHz
 	rREG_MPLL_CON = MPLL_VAL;
 	
-	// 5 设置各种时钟开关,使用PLL
+	// 5 ���ø���ʱ�ӿ���,ʹ��PLL
 	rREG_CLK_SRC0 = 0x10001111;
 }
 
